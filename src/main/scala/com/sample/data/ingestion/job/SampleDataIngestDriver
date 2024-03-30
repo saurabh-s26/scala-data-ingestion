@@ -1,0 +1,22 @@
+package com.sample.data.ingestion.job
+
+import com.sample.data.ingestion.utility._
+object SampleDataIngestDriver {
+
+  def main(args:Array[String]): Unit = {
+
+    val env = args(0)
+    val absoluteConfigPath = args(1)
+
+    val spark =  SparkSessionManager.fetchDatalakeSparkSession(Constants.APPLICATION_NAME)
+    val reader = Utils.getHdfsReader(absoluteConfigPath)(spark.SparkContext)
+    val config = ConfigFactory.parseReader(reader)
+
+    val dataWriter = new DataWriter(config)
+    val fetchSource = new FetchSource(spark,env,config)
+
+    dataWriter.write(new Runner(fetchSource,spark).runMapperMain(),env)
+    spark.close()
+  }
+
+}

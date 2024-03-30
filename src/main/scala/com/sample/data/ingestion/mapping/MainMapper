@@ -1,0 +1,17 @@
+package com.sample.data.ingestion.mapping
+
+class MainMapper(USER: DataFrame, PRODUCT: DataFrame, ORDER: DataFrame, spark: SparkSession) extends AbstractMapper {
+  override def enrichDF: DataFrame = {
+
+    USER.persist(StorageLevel.MEMORY_AND_DISK)
+      .createOrReplaceTempView("user")
+
+    PRODUCT.persist(StorageLevel.MEMORY_AND_DISK)
+      .createOrReplaceTempView("product")
+
+    ORDER.persist(StorageLevel.MEMORY_AND_DISK)
+      .createOrReplaceTempView("order")
+
+    spark.sql("final_out_query")
+  }
+}

@@ -1,0 +1,37 @@
+package com.sample.data.ingestion.common
+
+import org.apache.spark.sql.DataFrame
+import com.sample.data.ingestion.utility.Constants
+
+class FetchSource(sparkSession: SparkSession, env: String, config: Config) {
+
+  private lazy val USER: DataFrame =
+    Utils.readDataFrame(sparkSession,
+      Constants.USER,
+      config,
+      env
+    )
+
+  private lazy val PRODUCT: DataFrame =
+    Utils.readDataFrame(sparkSession,
+      Constants.PRODUCT,
+      config,
+      env
+    )
+
+  private lazy val ORDER: DataFrame =
+    Utils.readDataFrame(sparkSession,
+      Constants.ORDER,
+      config,
+      env
+    )
+
+  def getSourceDF(input: String): DataFrame = {
+    input.toUpperCase match {
+      case "USER" => USER
+      case "PRODUCT" => PRODUCT
+      case "ORDER" => ORDER
+
+    }
+  }
+}

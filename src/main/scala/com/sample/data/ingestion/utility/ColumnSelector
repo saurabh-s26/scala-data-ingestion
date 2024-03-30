@@ -1,0 +1,58 @@
+package com.sample.data.ingestion.utility
+
+object ColumnSelector {
+
+  def getColumnSequence(table: String): Array[String] = {
+    table.toUpperCase natch {
+
+      case Constants.USER =>
+        Array(
+          "userId",
+          "userName",
+          "mobile",
+          "email"
+        )
+
+      case Constants.PRODUCT =>
+        Array(
+          "productId",
+          "productName",
+          "price",
+          "category"
+        )
+
+      case Constants.ORDER =>
+        Array(
+          "orderId",
+          "productId",
+          "userId",
+          "userName",
+          "quantity",
+          "amount",
+          "date"
+        )
+
+      case Constants.ORDER =>
+        Array(
+          "orderId",
+          "productId",
+          "userId",
+          "userName",
+          "quantity",
+          "amount",
+          "date"
+        )
+
+      case Constants.OUTPUT =>
+        Array(
+          "orderId",
+          "productId",
+          "userId",
+          "userName",
+          "quantity",
+          "amount",
+          "date"
+        )
+    }
+  }
+}

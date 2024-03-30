@@ -1,0 +1,19 @@
+package com.sample.data.ingestion.utility
+
+import org.apache.spark.sql.SparkSession
+
+object SparkSessionManager {
+
+  def fetchDatalakeSparkSession(appName: String): SparkSession = {
+    SparkSession
+      .builder()
+      .appName(appName)
+      .config("saprk.serializer", "org.apache.spark.serializer.kyroSerializer")
+      .config("spark.sql.tungsten.enabled", "true")
+      .config("spark.rdd.compress", "true")
+      .config("spark.io.compression.codec", "snappy")
+      .config("spark.sql.broadcastTimeout", 1200)
+      .config("spark.eventlog.enabled", "true")
+      .getOrCreate()
+  }
+}

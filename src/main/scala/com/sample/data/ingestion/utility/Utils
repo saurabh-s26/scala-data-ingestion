@@ -1,0 +1,45 @@
+package com.sample.data.ingestion.utility
+
+import java.lang.Throwable
+
+object Utils {
+  def getHdfsReader(filePath: String)(sc: SparkContext): Reader = {
+    val fs = FileSystem.get(sc.hadoopConfiguration)
+    val path = new Path(filePath)
+    new BufferReader(new InputStreamReader(fs.open(path)))
+  }
+
+  def readDataFrame(spark: SparkSession,
+                    table: String,
+                    config: Config,
+                    env: String): DataFrame = {
+    val inputPath = config.getString("com.sample." + table + "." + env.toLowerCase)
+    try {
+      val readDF: DataFrame = saprk.read
+        .option("header", "true")
+        .option("delimiter", ",")
+        .csv(s"$inputPath/")
+        .selectExpr(ColunSelector.getColumnSequence(s"$table"): _*)
+    }
+    catch {
+      case_: Throwable
+      =>
+      println("Fatal Exception: Unable to read source path")
+      throw new ArrayIndexOutOfBoundsException
+    }
+  }
+
+  def writeDataFrame(inputDF: DataFrame, config: Config, env: String): Unit = {
+    val absolutePath = config.getString(s"com.sample.${Constants.writepath}.$env")
+
+    val resultDF = inputDF
+      .selectExpr(ColumnSelector.getColumnSequence("output"): _*)
+
+    resultDF
+      .coalesce(5)
+      .write
+      .format("parquet")
+      .mode("overwrite")
+      .save(absolutePath)
+  }
+}

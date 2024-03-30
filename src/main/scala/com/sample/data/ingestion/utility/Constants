@@ -1,0 +1,11 @@
+package com.sample.data.ingestion.utility
+
+object Constants {
+  val APPLICATION_NAME = "SAMPLE_DATA_INGESTION"
+  val USER = "USER"
+  val PRODUCT = "PRODUCT
+  val ORDER = "ORDER"
+  val OUTPUT = "OUTPUT"
+
+  val writepath = "writepath"
+}

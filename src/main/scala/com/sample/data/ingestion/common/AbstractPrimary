@@ -1,0 +1,13 @@
+package com.sample.data.ingestion.common
+
+import org.apache.spark.sql.DataFrame
+import com.sample.data.utillty.Constants
+
+abstract class AbstractPrimary(fetchSource: FetchSource) {
+
+  private[common] lazy val USER: DataFrame = fetchSource.getSourceDF(s"${Constants.USER}")
+  private[common] lazy val PRODUCT: DataFrame = fetchSource.getSourceDF(s"${Constants.PRODUCT}")
+  private[common] lazy val ORDER: DataFrame = fetchSource.getSourceDF(s"${Constants.ORDER}")
+
+  def runMapperMain(): DataFrame
+}

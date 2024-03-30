@@ -1,0 +1,12 @@
+package com.sample.data.ingestion.common
+
+import org.apache.spark.sql.DataFrame
+
+abstract class AbstractMapper extends Serializable {
+
+  def enrichDF: DataFrame
+
+  def fetchMapping: DataFrame = {
+    enrichDF
+  }
+}
